@@ -14,14 +14,12 @@ const herName = "Divya";
       :root{
         --bg1:#2b0b3f; --bg2:#0a0217; --bg3:#04010a;
         --text:#fdf7ff;
-        --muted:rgba(255,255,255,.78);
+        --muted:rgba(255,255,255,.80);
         --card:rgba(16,5,32,.72);
         --stroke:rgba(255,255,255,.12);
         --shadow:rgba(8,2,18,.55);
-
         --pink1:#ff7ac8; --pink2:#f73c72;
         --blue2:#548bff;
-
         --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       }
 
@@ -41,7 +39,7 @@ const herName = "Divya";
       /* fireworks canvas */
       #fw{position:fixed; inset:0; pointer-events:none; z-index:9999;}
 
-      /* subtle floating hearts background (light + classy) */
+      /* subtle floating hearts background */
       .hearts{position:fixed; inset:0; pointer-events:none; z-index:1; opacity:.55;}
       .hearts span{
         position:absolute; left:var(--x); top:var(--y);
@@ -78,14 +76,21 @@ const herName = "Divya";
         text-align:center;
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
-        isolation:isolate;
-        animation: breathe 5.8s ease-in-out infinite;
       }
 
-      /* very subtle “breathing” */
-      @keyframes breathe{
-        0%,100%{transform:translateY(0)}
-        50%{transform:translateY(-3px)}
+      /* glow ring */
+      .card::before{
+        content:"";
+        position:absolute;
+        inset:-2px;
+        border-radius:30px;
+        padding:2px;
+        background:linear-gradient(135deg, rgba(255,122,200,0.40), rgba(84,139,255,0.22), rgba(255,255,255,0.06));
+        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        -webkit-mask-composite:xor;
+        mask-composite:exclude;
+        pointer-events:none;
+        opacity:.72;
       }
 
       /* gentle shimmer sweep */
@@ -106,21 +111,6 @@ const herName = "Divya";
       @keyframes shimmer{
         0%,100%{transform:translateX(-40%) rotate(10deg); opacity:.16}
         50%{transform:translateX(40%) rotate(10deg); opacity:.52}
-      }
-
-      /* glow ring */
-      .card::before{
-        content:"";
-        position:absolute;
-        inset:-2px;
-        border-radius:30px;
-        padding:2px;
-        background:linear-gradient(135deg, rgba(255,122,200,0.40), rgba(84,139,255,0.22), rgba(255,255,255,0.06));
-        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-        -webkit-mask-composite:xor;
-        mask-composite:exclude;
-        pointer-events:none;
-        opacity:.72;
       }
 
       .mini{
@@ -146,23 +136,6 @@ const herName = "Divya";
         letter-spacing:-.02em;
         font-weight:950;
         text-shadow: 0 0 18px rgba(255,122,200,0.12);
-        animation: titleGlow 3.6s ease-in-out infinite;
-      }
-      @keyframes titleGlow{
-        0%,100%{filter: drop-shadow(0 0 0 rgba(255,122,200,0));}
-        50%{filter: drop-shadow(0 0 14px rgba(255,122,200,0.22));}
-      }
-
-      /* soft fade-in for text */
-      .fade-in{
-        opacity:0;
-        transform: translateY(8px);
-        animation: fadeUp .9s ease forwards;
-      }
-      .fade-in.delay{ animation-delay: .18s; }
-      .fade-in.delay2{ animation-delay: .34s; }
-      @keyframes fadeUp{
-        to{opacity:1; transform: translateY(0);}
       }
 
       .msg{
@@ -196,6 +169,7 @@ const herName = "Divya";
         position:relative;
         z-index:5;
       }
+
       .btn{
         border-radius:999px;
         padding:13px 20px;
@@ -212,7 +186,6 @@ const herName = "Divya";
         display:inline-flex;
         align-items:center;
         justify-content:center;
-        gap:10px;
       }
       .btn:hover{transform:translateY(-2px); box-shadow:0 16px 30px rgba(247,146,255,.16)}
       .btn:active{transform:translateY(0) scale(.99)}
@@ -223,7 +196,6 @@ const herName = "Divya";
         border-color:rgba(255,122,200,.35);
       }
 
-      /* NO: fixed place, only jumps when clicked/tapped */
       .btn-no{
         background: rgba(0,0,0,0.42);
         border: 1px solid rgba(255,255,255,0.10);
@@ -253,11 +225,11 @@ const herName = "Divya";
 
     <main class="wrap">
       <section class="card" aria-label="Valentine invitation">
-        <div class="mini fade-in"><span class="dot"></span> a tiny question with a big smile</div>
+        <div class="mini"><span class="dot"></span> a tiny question with a big smile</div>
 
-        <h1 class="fade-in delay">{herName}, will you be my Valentine?</h1>
+        <h1>{herName}, will you be my Valentine?</h1>
 
-        <p class="msg fade-in delay2">
+        <p class="msg">
           I don’t need anything grand — I just want time with you.
           A little more laughter, a little more closeness, and a lot more <b>us</b>.
           If your heart says yes… I’m right here.
@@ -268,13 +240,8 @@ const herName = "Divya";
         </div>
 
         <div class="actions" aria-label="Response buttons">
-          <a class="btn btn-yes" id="yesBtn" href={yesLink}>
-            Yes, I will
-          </a>
-
-          <button class="btn btn-no" id="noBtn" type="button">
-            No, not this time
-          </button>
+          <a class="btn btn-yes" id="yesBtn" href={yesLink}>Yes, I will</a>
+          <button class="btn btn-no" id="noBtn" type="button">No, not this time</button>
         </div>
 
         <p class="foot">P.S. If you say yes, I owe you a proper date.</p>
@@ -305,7 +272,7 @@ const herName = "Divya";
         const pad = 6;
 
         const maxX = Math.max(0, host.width - b.width - pad * 2);
-        const maxY = 26; // small vertical wiggle
+        const maxY = 26;
 
         const x = pad + Math.random() * maxX;
         const y = -6 + Math.random() * maxY;
@@ -313,17 +280,8 @@ const herName = "Divya";
         noBtn.style.transform = `translate(${x}px, ${y}px)`;
       }
 
-      noBtn.style.userSelect = "none";
-
-      noBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        jumpNo();
-      });
-
-      noBtn.addEventListener("touchstart", (e) => {
-        e.preventDefault();
-        jumpNo();
-      }, { passive: false });
+      noBtn.addEventListener("click", (e) => { e.preventDefault(); jumpNo(); });
+      noBtn.addEventListener("touchstart", (e) => { e.preventDefault(); jumpNo(); }, { passive: false });
 
       // Fireworks on YES + teddy hug
       const yesBtn = document.getElementById("yesBtn");
