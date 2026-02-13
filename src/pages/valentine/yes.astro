@@ -1,69 +1,662 @@
 ---
-const backLink = '/valentine';
+---
+const memories = [
+  { src: "/images/1.jpeg", caption: "Memory 1", date: "Start" },
+  { src: "/images/2.jpeg", caption: "Memory 2", date: "Moments" },
+  { src: "/images/3.jpg", caption: "Memory 3", date: "Together" },
+  { src: "/images/4.jpg", caption: "Memory 4", date: "Fun" },
+  { src: "/images/5.jpg", caption: "Memory 5", date: "Smiles" },
+  { src: "/images/6.jpg", caption: "Memory 6", date: "Laughs" },
+  { src: "/images/7.jpg", caption: "Memory 7", date: "Adventure" },
+  { src: "/images/8.jpg", caption: "Memory 8", date: "Travel" },
+  { src: "/images/9.jpg", caption: "Memory 9", date: "Joy" },
+  { src: "/images/10.jpg", caption: "Memory 10", date: "Love" },
+  { src: "/images/11.jpg", caption: "Memory 11", date: "Days" },
+  { src: "/images/12.jpg", caption: "Memory 12", date: "Nights" },
+  { src: "/images/13.jpg", caption: "Memory 13", date: "Magic" },
+  { src: "/images/14.jpg", caption: "Memory 14", date: "Forever" },
+  { src: "/images/15.jpg", caption: "Memory 15", date: "Special" },
+  { src: "/images/16.jpg", caption: "Memory 16", date: "Always" },
+  { src: "/images/17.png", caption: "Memory 17", date: "Beautiful" },
+  { src: "/images/18.png", caption: "Memory 18", date: "Sweet" },
+  { src: "/images/19.png", caption: "Memory 19", date: "Perfect" },
+];
+
+
+const backLink = "/valentine";
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Yes Accepted</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>It’s a YES 💖</title>
+    <meta name="theme-color" content="#0a0217" />
+
+    <style>
+      :root {
+        --bg1: #2b0b3f;
+        --bg2: #0a0217;
+        --bg3: #04010a;
+        --text: #fdf7ff;
+        --muted: rgba(255, 255, 255, 0.75);
+        --card: rgba(16, 5, 32, 0.72);
+        --stroke: rgba(255, 255, 255, 0.12);
+        --shadow: rgba(8, 2, 18, 0.55);
+
+        --pink1: #ff7ac8;
+        --pink2: #f73c72;
+        --blue1: #8ed6ff;
+        --blue2: #548bff;
+
+        --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+          "Courier New", monospace;
+        --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      }
+
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        color: var(--text);
+        font-family: var(--sans);
+        overflow-x: hidden;
+        background:
+          radial-gradient(900px 520px at 50% -10%, rgba(255, 122, 200, 0.22), transparent 55%),
+          radial-gradient(800px 540px at 0% 30%, rgba(84, 139, 255, 0.16), transparent 55%),
+          radial-gradient(circle at top, var(--bg1) 0%, var(--bg2) 55%, var(--bg3) 100%);
+      }
+
+      /* Ambient floating hearts */
+      .hearts {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.95;
+      }
+      .hearts span {
+        position: absolute;
+        left: var(--x);
+        top: var(--y);
+        font-size: var(--s);
+        color: rgba(255, 122, 200, 0.22);
+        animation: drift var(--d) ease-in-out infinite;
+        filter: blur(0.2px);
+      }
+      @keyframes drift {
+        0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.25; }
+        50% { transform: translateY(-18px) translateX(10px) scale(1.08); opacity: 0.85; }
+      }
+
+      .wrap {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 34px 18px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .card {
+        width: min(980px, 100%);
+        border-radius: 28px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)), var(--card);
+        border: 1px solid var(--stroke);
+        box-shadow: 0 30px 90px var(--shadow);
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      .hero {
+        padding: clamp(18px, 3.2vw, 30px);
+        text-align: center;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--mono);
+        font-size: 0.86rem;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.12);
+        color: rgba(255,255,255,0.82);
+        margin-bottom: 14px;
+      }
+      .tag .dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--pink1), var(--blue2));
+        box-shadow: 0 0 12px rgba(255,122,200,0.45);
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(2rem, 3.8vw, 2.8rem);
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        font-weight: 900;
+      }
+      .sub {
+        margin: 0 auto 16px;
+        max-width: 64ch;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      .btn {
+        text-decoration: none;
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-weight: 900;
+        border: 1px solid rgba(255,255,255,0.16);
+        transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+        user-select: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+      }
+      .btn:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(247,146,255,0.16); }
+      .btn:active { transform: translateY(0px) scale(0.99); }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--pink1), var(--pink2));
+        color: #16010f;
+        border-color: rgba(255,122,200,0.35);
+      }
+      .btn-ghost {
+        background: rgba(255,255,255,0.06);
+        color: rgba(255,255,255,0.9);
+      }
+
+      .divider { height: 1px; background: rgba(255,255,255,0.08); }
+
+      /* Timeline */
+      .timeline {
+        padding: clamp(16px, 3vw, 26px);
+      }
+      .timeline-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+      }
+      .timeline h2 {
+        margin: 0;
+        font-size: 1.08rem;
+        letter-spacing: 0.02em;
+      }
+      .hint {
+        margin: 0;
+        color: rgba(255,255,255,0.62);
+        font-size: 0.95rem;
+      }
+
+      .story {
+        position: relative;
+        padding-left: 22px;
+        display: grid;
+        gap: 14px;
+      }
+      .story::before {
+        content: "";
+        position: absolute;
+        left: 10px;
+        top: 4px;
+        bottom: 4px;
+        width: 2px;
+        background: linear-gradient(180deg, rgba(255,122,200,0.6), rgba(84,139,255,0.2));
+        opacity: 0.55;
+      }
+
+      .event {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .pin {
+        position: absolute;
+        left: -2px;
+        top: 18px;
+        width: 18px; height: 18px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(255,122,200,0.95), rgba(84,139,255,0.85));
+        box-shadow: 0 0 0 4px rgba(255,255,255,0.06), 0 16px 30px rgba(255,122,200,0.18);
+      }
+
+      .tile {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(0,0,0,0.16);
+        cursor: pointer;
+        aspect-ratio: 16 / 9;
+        transform: translateY(0);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+      .tile:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 50px rgba(0,0,0,0.25);
+      }
+      .tile img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transform: scale(1.02);
+        transition: transform 0.35s ease, filter 0.35s ease;
+        filter: saturate(1.05);
+      }
+      .tile:hover img { transform: scale(1.08); filter: saturate(1.18); }
+
+      /* Caption overlay on tiles */
+      .cap {
+        position: absolute;
+        inset: auto 0 0 0;
+        padding: 12px 12px 12px;
+        background: linear-gradient(180deg, transparent, rgba(0,0,0,0.65));
+        color: rgba(255,255,255,0.92);
+        text-align: left;
+      }
+      .cap .date {
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        opacity: 0.85;
+      }
+      .cap .text {
+        margin-top: 4px;
+        font-size: 0.98rem;
+        line-height: 1.35;
+        font-weight: 800;
+      }
+
+      /* Lightbox */
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        display: none;
+        place-items: center;
+        background: rgba(0,0,0,0.72);
+        z-index: 999;
+        padding: 18px;
+      }
+      .lightbox.open { display: grid; }
+
+      /* Cinematic transitions */
+      .lb-inner {
+        width: min(1020px, 100%);
+        background: rgba(16, 5, 32, 0.78);
+        border: 1px solid rgba(255,255,255,0.14);
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 30px 90px rgba(0,0,0,0.55);
+        transform: scale(0.985);
+        opacity: 0;
+        animation: cinIn 240ms ease forwards;
+      }
+      @keyframes cinIn {
+        to { transform: scale(1); opacity: 1; }
+      }
+
+      .lb-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 12px 14px;
+        background: rgba(255,255,255,0.04);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        font-family: var(--mono);
+        color: rgba(255,255,255,0.72);
+        font-size: 0.85rem;
+      }
+
+      .lb-controls {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .iconbtn {
+        background: rgba(255,255,255,0.06);
+        color: rgba(255,255,255,0.88);
+        border: 1px solid rgba(255,255,255,0.14);
+        border-radius: 999px;
+        padding: 8px 12px;
+        cursor: pointer;
+        user-select: none;
+        transition: transform 0.15s ease, filter 0.15s ease;
+      }
+      .iconbtn:hover { transform: translateY(-1px); filter: brightness(1.08); }
+      .iconbtn:active { transform: translateY(0px) scale(0.99); }
+
+      .lb-stage {
+        position: relative;
+        background: rgba(0,0,0,0.22);
+        display: grid;
+        place-items: center;
+      }
+
+      .lb-img {
+        width: 100%;
+        height: auto;
+        max-height: 76vh;
+        object-fit: contain;
+        display: block;
+        opacity: 0;
+        transform: scale(0.995);
+        transition: opacity 220ms ease, transform 220ms ease;
+      }
+      .lb-img.show {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* Caption overlay in lightbox */
+      .lb-caption {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 14px 14px 16px;
+        background: linear-gradient(180deg, transparent, rgba(0,0,0,0.78));
+        color: rgba(255,255,255,0.92);
+        text-align: left;
+      }
+      .lb-caption .date {
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        opacity: 0.86;
+      }
+      .lb-caption .text {
+        margin-top: 4px;
+        font-size: 1.02rem;
+        line-height: 1.35;
+        font-weight: 900;
+      }
+
+      .lb-hint {
+        padding: 10px 14px 14px;
+        color: rgba(255,255,255,0.62);
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.02);
+      }
+
+      @media (min-width: 860px) {
+        .event { grid-template-columns: 1fr; }
+        .tile { aspect-ratio: 21 / 9; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * { animation: none !important; transition: none !important; }
+      }
+    </style>
   </head>
+
   <body>
-    <main class="response yes">
-      <div class="card">
-        <h1>She said yes 💖</h1>
-        <p>
-          Divya, you just made my world lighter, warmer, and infinitely happier.
-        </p>
-        <a class="button" href={backLink}>Back to the prompt</a>
-      </div>
+    <!-- Floating heart particles -->
+    <div class="hearts" aria-hidden="true" id="hearts"></div>
+
+    <main class="wrap">
+      <section class="card" aria-label="Yes page with timeline gallery">
+        <div class="hero">
+          <div class="tag"><span class="dot"></span> ✅ git merge origin/love — success</div>
+          <h1>It’s a YES 💖</h1>
+          <p class="sub">
+            Welcome to our little timeline. Tap a moment to view it full-screen.
+            (On mobile: swipe left/right to navigate.)
+          </p>
+
+          <div class="actions">
+            <a class="btn btn-primary" href={backLink}>Back to invite</a>
+            <a class="btn btn-ghost" href="#timeline">Jump to timeline ↓</a>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <section class="timeline" id="timeline" aria-label="Timeline story layout">
+          <div class="timeline-head">
+            <h2>Our Story Timeline</h2>
+            <p class="hint">Tip: open a photo → press ▶ to auto-play slideshow.</p>
+          </div>
+
+          <div class="story">
+            {memories.map((m, idx) => (
+              <div class="event">
+                <div class="pin" aria-hidden="true"></div>
+
+                <button
+                  class="tile"
+                  type="button"
+                  data-idx={String(idx)}
+                  data-src={m.src}
+                  data-date={m.date}
+                  data-caption={m.caption}
+                  aria-label={`Open ${m.date}`}
+                >
+                  <img src={m.src} alt={m.caption} loading="lazy" />
+                  <div class="cap">
+                    <div class="date">{m.date}</div>
+                    <div class="text">{m.caption}</div>
+                  </div>
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+      </section>
     </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lb" aria-hidden="true">
+      <div class="lb-inner" role="dialog" aria-modal="true" aria-label="Image viewer">
+        <div class="lb-bar">
+          <span id="lbTitle">memory</span>
+
+          <div class="lb-controls">
+            <button class="iconbtn" type="button" id="prevBtn" aria-label="Previous">◀</button>
+            <button class="iconbtn" type="button" id="playBtn" aria-label="Play slideshow">▶</button>
+            <button class="iconbtn" type="button" id="nextBtn" aria-label="Next">▶▶</button>
+            <button class="iconbtn" type="button" id="closeBtn" aria-label="Close">✕</button>
+          </div>
+        </div>
+
+        <div class="lb-stage" id="lbStage">
+          <img class="lb-img" id="lbImg" alt="" />
+          <div class="lb-caption" id="lbCaption">
+            <div class="date" id="lbDate"></div>
+            <div class="text" id="lbText"></div>
+          </div>
+        </div>
+
+        <div class="lb-hint">
+          Swipe ◀ ▶ on mobile • Arrow keys on desktop • ESC to close
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ---------- Ambient floating hearts (particles) ----------
+      const heartsHost = document.getElementById("hearts");
+      const heartChars = ["❤", "♥", "♡", "💖", "✨"];
+      const heartCount = 18;
+
+      for (let i = 0; i < heartCount; i++) {
+        const s = document.createElement("span");
+        s.textContent = heartChars[i % heartChars.length];
+        s.style.setProperty("--x", (Math.random() * 100) + "vw");
+        s.style.setProperty("--y", (Math.random() * 100) + "vh");
+        s.style.setProperty("--s", (14 + Math.random() * 22) + "px");
+        s.style.setProperty("--d", (4.8 + Math.random() * 4.2) + "s");
+        heartsHost.appendChild(s);
+      }
+
+      // ---------- Lightbox + slideshow + swipe ----------
+      const tiles = Array.from(document.querySelectorAll(".tile"));
+      const lb = document.getElementById("lb");
+      const lbImg = document.getElementById("lbImg");
+      const lbTitle = document.getElementById("lbTitle");
+      const lbDate = document.getElementById("lbDate");
+      const lbText = document.getElementById("lbText");
+      const lbStage = document.getElementById("lbStage");
+
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const playBtn = document.getElementById("playBtn");
+      const closeBtn = document.getElementById("closeBtn");
+
+      let current = 0;
+      let playing = false;
+      let timer = null;
+      const intervalMs = 2400;
+
+      function setPlaying(on) {
+        playing = on;
+        playBtn.textContent = playing ? "⏸" : "▶";
+        playBtn.setAttribute("aria-label", playing ? "Pause slideshow" : "Play slideshow");
+
+        if (timer) clearInterval(timer);
+        timer = null;
+
+        if (playing) {
+          timer = setInterval(() => go(1), intervalMs);
+        }
+      }
+
+      function openLB(idx) {
+        current = idx;
+        lb.classList.add("open");
+        lb.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        render();
+      }
+
+      function closeLB() {
+        lb.classList.remove("open");
+        lb.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        setPlaying(false);
+        // clear image for cleanliness
+        lbImg.src = "";
+        lbImg.alt = "";
+        lbImg.classList.remove("show");
+      }
+
+      function render() {
+        const t = tiles[current];
+        if (!t) return;
+
+        const src = t.dataset.src || "";
+        const date = t.dataset.date || "";
+        const caption = t.dataset.caption || "";
+        const title = (src.split("/").pop() || "memory");
+
+        lbTitle.textContent = title;
+        lbDate.textContent = date;
+        lbText.textContent = caption;
+
+        // cinematic image swap
+        lbImg.classList.remove("show");
+        const img = new Image();
+        img.onload = () => {
+          lbImg.src = src;
+          lbImg.alt = caption;
+          requestAnimationFrame(() => lbImg.classList.add("show"));
+        };
+        img.src = src;
+      }
+
+      function go(dir) {
+        current = (current + dir + tiles.length) % tiles.length;
+        render();
+      }
+
+      // Open on tile click
+      tiles.forEach((t, i) => {
+        t.addEventListener("click", () => openLB(i));
+      });
+
+      // Controls
+      prevBtn.addEventListener("click", () => go(-1));
+      nextBtn.addEventListener("click", () => go(1));
+      playBtn.addEventListener("click", () => setPlaying(!playing));
+      closeBtn.addEventListener("click", closeLB);
+
+      // Click outside inner closes (on overlay background only)
+      lb.addEventListener("click", (e) => {
+        if (e.target === lb) closeLB();
+      });
+
+      // Keyboard nav
+      window.addEventListener("keydown", (e) => {
+        if (!lb.classList.contains("open")) return;
+        if (e.key === "Escape") closeLB();
+        if (e.key === "ArrowLeft") go(-1);
+        if (e.key === "ArrowRight") go(1);
+        if (e.key === " ") { e.preventDefault(); setPlaying(!playing); }
+      });
+
+      // Swipe gestures (mobile) — on image stage
+      let x0 = null;
+      let y0 = null;
+
+      function onTouchStart(e) {
+        const t = e.touches && e.touches[0];
+        if (!t) return;
+        x0 = t.clientX;
+        y0 = t.clientY;
+      }
+
+      function onTouchMove(e) {
+        // prevent scroll while in lightbox stage
+        if (!lb.classList.contains("open")) return;
+        if (!x0 || !y0) return;
+        e.preventDefault();
+      }
+
+      function onTouchEnd(e) {
+        const t = e.changedTouches && e.changedTouches[0];
+        if (!t || x0 === null || y0 === null) return;
+
+        const dx = t.clientX - x0;
+        const dy = t.clientY - y0;
+
+        // horizontal swipe threshold
+        if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+          if (dx < 0) go(1);
+          else go(-1);
+        }
+
+        x0 = null;
+        y0 = null;
+      }
+
+      lbStage.addEventListener("touchstart", onTouchStart, { passive: true });
+      lbStage.addEventListener("touchmove", onTouchMove, { passive: false });
+      lbStage.addEventListener("touchend", onTouchEnd, { passive: true });
+
+      // Safety: stop slideshow if tab hidden
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) setPlaying(false);
+      });
+    </script>
   </body>
 </html>
-
-<style>
-  :global(body) {
-    margin: 0;
-    font-family: 'SF Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco,
-      Consolas, 'Liberation Mono', 'Courier New', monospace;
-    background: radial-gradient(circle at top, #ffb7d5 0%, #ff6fae 45%, #430020 100%);
-    color: #2b0014;
-  }
-
-  .response {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 32px 20px;
-  }
-
-  .card {
-    max-width: 520px;
-    padding: 32px 28px;
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 24px;
-    text-align: center;
-    box-shadow: 0 24px 60px rgba(67, 0, 32, 0.35);
-  }
-
-  h1 {
-    margin: 0 0 12px;
-    font-size: 2.2rem;
-  }
-
-  p {
-    margin: 0 0 24px;
-    line-height: 1.6;
-  }
-
-  .button {
-    display: inline-block;
-    text-decoration: none;
-    padding: 12px 20px;
-    border-radius: 999px;
-    background: #2b0014;
-    color: #fff2f7;
-    font-weight: 600;
-  }
-</style>
