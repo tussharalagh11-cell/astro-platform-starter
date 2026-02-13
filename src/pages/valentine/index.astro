@@ -47,16 +47,6 @@
         padding: 36px 18px;
       }
 
-
-#noBtn {
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: none;
-  cursor: not-allowed;
-  transition: left 0.22s ease, top 0.22s ease, transform 0.15s ease;
-}
-
-
       .card {
         position: relative;
         width: min(720px, 100%);
@@ -354,9 +344,9 @@
           <a class="btn btn-yes" id="yesBtn" href="/valentine/yes">
             Yes, I will <span aria-hidden="true">♥</span>
           </a>
-         <a id="noBtn" class="button no" href="#">
-  No, not this time
-</a>
+          <a class="btn btn-no" id="noBtn" href="/valentine/no">
+            No, not this time
+          </a>
         </div>
 
         <p class="footer">P.S. This request expires after one heartbeat.</p>
@@ -369,7 +359,7 @@
       const noLink = "/valentine/no";
       const codeSnippet =
 `const us = {
-  me: "Tusshar",
+  me: "T",
   you: "Divya",
   status: "hopelessly into you",
   question: "Divya, will you be my Valentine?",
@@ -475,62 +465,5 @@ export const answer: "yes" | "no" = "yes";`;
         setTimeout(() => (noBtn.style.transform = ""), 140);
       });
     </script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("noBtn");
-
-  if (!btn) return;
-
-  let dodgeCount = 0;
-
-  const moveButton = () => {
-    const padding = 20;
-
-    const maxX = window.innerWidth - btn.offsetWidth - padding;
-    const maxY = window.innerHeight - btn.offsetHeight - padding;
-
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    btn.style.position = "fixed";
-    btn.style.left = x + "px";
-    btn.style.top = y + "px";
-
-    // playful scale bounce
-    btn.style.transform = "scale(1.15)";
-    setTimeout(() => {
-      btn.style.transform = "scale(1)";
-    }, 120);
-
-    dodgeCount++;
-  };
-
-  // Desktop hover
-  btn.addEventListener("mouseenter", moveButton);
-
-  // Mobile touch dodge
-  btn.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    moveButton();
-  });
-
-  // Prevent clicks
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-    moveButton();
-  });
-
-  // Prevent keyboard selection
-  btn.addEventListener("focus", moveButton);
-
-  // Initial slight offset so it isn't predictable
-  setTimeout(moveButton, 300);
-});
-</script>
-
   </body>
 </html>
-
-
-
