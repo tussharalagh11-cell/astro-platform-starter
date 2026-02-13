@@ -41,22 +41,12 @@ const herInitial = "D";
       }
 
       /* fireworks canvas */
-      #fw{
-        position:fixed; inset:0;
-        pointer-events:none;
-        z-index:9999;
-      }
+      #fw{position:fixed; inset:0; pointer-events:none; z-index:9999;}
 
-      /* floating hearts */
-      .hearts{
-        position:fixed; inset:0;
-        pointer-events:none;
-        z-index:1;
-        opacity:.9;
-      }
+      /* floating hearts background */
+      .hearts{position:fixed; inset:0; pointer-events:none; z-index:1; opacity:.9;}
       .hearts span{
-        position:absolute;
-        left:var(--x); top:var(--y);
+        position:absolute; left:var(--x); top:var(--y);
         font-size:var(--s);
         color:rgba(255,122,200,.22);
         animation:drift var(--d) ease-in-out infinite;
@@ -90,6 +80,27 @@ const herInitial = "D";
         text-align:center;
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
+        isolation:isolate;
+      }
+
+      /* shimmer sweep */
+      .card::after{
+        content:"";
+        position:absolute;
+        inset:-40%;
+        background: linear-gradient(115deg,
+          transparent 40%,
+          rgba(255,255,255,0.08) 50%,
+          transparent 60%);
+        transform: translateX(-35%) rotate(10deg);
+        animation: shimmer 6.5s ease-in-out infinite;
+        pointer-events:none;
+        z-index:-1;
+        opacity:.55;
+      }
+      @keyframes shimmer{
+        0%,100%{transform:translateX(-40%) rotate(10deg); opacity:.25}
+        50%{transform:translateX(40%) rotate(10deg); opacity:.65}
       }
 
       /* glow ring */
@@ -108,18 +119,12 @@ const herInitial = "D";
       }
 
       .top-emojis{
-        display:flex;
-        justify-content:center;
-        gap:10px;
-        font-size:1.1rem;
-        margin-bottom:10px;
-        opacity:.92;
+        display:flex; justify-content:center; gap:10px;
+        font-size:1.1rem; margin-bottom:10px; opacity:.92;
       }
 
       .mini{
-        display:inline-flex;
-        align-items:center;
-        gap:10px;
+        display:inline-flex; align-items:center; gap:10px;
         margin:0 0 16px;
         padding:10px 14px;
         border-radius:999px;
@@ -140,7 +145,14 @@ const herInitial = "D";
         line-height:1.12;
         letter-spacing:-.02em;
         font-weight:950;
+        text-shadow: 0 0 22px rgba(255,122,200,0.16);
+        animation: titleGlow 3.2s ease-in-out infinite;
       }
+      @keyframes titleGlow{
+        0%,100%{filter: drop-shadow(0 0 0 rgba(255,122,200,0));}
+        50%{filter: drop-shadow(0 0 18px rgba(255,122,200,0.35));}
+      }
+
       .msg{
         margin:0 auto 18px;
         max-width:62ch;
@@ -150,11 +162,8 @@ const herInitial = "D";
       }
 
       .couple{
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        gap:14px;
-        margin: 18px 0 12px;
+        display:flex; align-items:center; justify-content:center;
+        gap:14px; margin: 18px 0 12px;
       }
       .avatar{
         width:70px;height:70px;border-radius:50%;
@@ -162,15 +171,13 @@ const herInitial = "D";
         font-weight:900;
         border:1px solid rgba(255,255,255,.18);
         box-shadow:0 14px 30px rgba(0,0,0,.28);
-        position:relative;
-        overflow:hidden;
+        position:relative; overflow:hidden;
       }
       .avatar::after{
         content:"";
         position:absolute; inset:0;
         background:radial-gradient(circle at 30% 20%, rgba(255,255,255,.35), transparent 55%);
-        opacity:.55;
-        pointer-events:none;
+        opacity:.55; pointer-events:none;
       }
       .me{background:linear-gradient(135deg,var(--blue1),var(--blue2));color:#061a35}
       .you{background:linear-gradient(135deg,#ff9ad4,#ff5f9c);color:#2a0014}
@@ -186,69 +193,33 @@ const herInitial = "D";
       @keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
 
       .teddy-row{
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        gap:10px;
-        margin: 0 0 8px;
-        font-size: 1.1rem;
-        opacity:.95;
+        display:flex; justify-content:center; align-items:center;
+        gap:10px; margin: 0 0 8px;
+        font-size:1.1rem; opacity:.95;
       }
 
-      /* Hug pop-up (hidden until YES) */
-      .hug {
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        gap:10px;
+      /* Hug pop-up */
+      .hug{
+        display:flex; align-items:center; justify-content:center; gap:10px;
         margin: 6px 0 10px;
-        height: 0;
-        opacity: 0;
+        height:0; opacity:0;
         transform: translateY(10px) scale(.98);
         transition: height .25s ease, opacity .25s ease, transform .25s ease;
-        pointer-events:none;
-        user-select:none;
+        pointer-events:none; user-select:none;
       }
-      .hug.show {
-        height: 44px;
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-      .hug .bear {
-        font-size: 1.7rem;
-        filter: drop-shadow(0 12px 20px rgba(255,122,200,.18));
-        animation: bearBounce 1.1s ease-in-out infinite;
-      }
-      .hug .heart2 {
-        font-size: 1.25rem;
-        animation: hugBeat .9s ease-in-out infinite;
-      }
-      .hug .spark {
-        font-size: 1.05rem;
-        opacity: .95;
-        animation: twinkle .8s ease-in-out infinite;
-      }
-      @keyframes bearBounce {
-        0%,100%{ transform: translateY(0); }
-        50%{ transform: translateY(-6px); }
-      }
-      @keyframes hugBeat {
-        0%,100%{ transform: scale(1); }
-        50%{ transform: scale(1.2); }
-      }
-      @keyframes twinkle {
-        0%,100%{ transform: rotate(0deg) scale(1); opacity:.75; }
-        50%{ transform: rotate(10deg) scale(1.15); opacity:1; }
-      }
+      .hug.show{height:44px; opacity:1; transform: translateY(0) scale(1);}
+      .hug .bear{font-size:1.7rem; animation: bearBounce 1.1s ease-in-out infinite;}
+      .hug .heart2{font-size:1.25rem; animation: hugBeat .9s ease-in-out infinite;}
+      .hug .spark{font-size:1.05rem; animation: twinkle .8s ease-in-out infinite;}
+      @keyframes bearBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+      @keyframes hugBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+      @keyframes twinkle{0%,100%{transform:rotate(0) scale(1);opacity:.75}50%{transform:rotate(10deg) scale(1.15);opacity:1}}
 
       .actions{
-        display:flex;
-        gap:12px;
-        justify-content:center;
-        flex-wrap:wrap;
+        display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
         margin-top:14px;
-        position: relative;
-        z-index: 5;
+        position:relative;
+        z-index:5;
       }
       .btn{
         border-radius:999px;
@@ -277,18 +248,20 @@ const herInitial = "D";
         border-color:rgba(255,122,200,.35);
       }
 
-      /* Darker, unclickable "No" */
+      /* NO: darker + unclickable + floating */
       .btn-no{
-        position:relative;
-        background: rgba(0,0,0,0.34);
+        position:absolute; /* we will animate it */
+        left: 12px;
+        top: 12px;
+        background: rgba(0,0,0,0.38);
         border: 1px solid rgba(255,255,255,0.10);
-        color: rgba(255,255,255,0.52);
-        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.28);
-        opacity: .94;
-        pointer-events:none;
+        color: rgba(255,255,255,0.50);
+        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.30);
+        opacity: .96;
+        pointer-events:none; /* cannot click */
         filter: saturate(0.85);
+        min-width: 230px;
       }
-      .btn-no .ghost{ pointer-events:none; }
 
       .foot{
         margin:18px 0 0;
@@ -296,10 +269,31 @@ const herInitial = "D";
         font-size:.92rem;
       }
 
-      @media (min-width:560px){
-        .btn{min-width:250px}
+      /* sparkles layer */
+      .sparkles{
+        position:absolute;
+        inset:0;
+        pointer-events:none;
+        z-index:0;
+      }
+      .spark{
+        position:absolute;
+        left:var(--sx);
+        top:var(--sy);
+        font-size:var(--ss);
+        opacity:0;
+        transform: translateY(8px) scale(.9);
+        animation: pop 1.9s ease-in-out infinite;
+        filter: drop-shadow(0 10px 20px rgba(255,122,200,0.12));
+      }
+      @keyframes pop{
+        0%{opacity:0; transform: translateY(10px) scale(.85)}
+        30%{opacity:.95; transform: translateY(0) scale(1)}
+        70%{opacity:.65}
+        100%{opacity:0; transform: translateY(-10px) scale(.9)}
       }
 
+      @media (min-width:560px){ .btn{min-width:250px} }
       @media (prefers-reduced-motion: reduce){
         *{animation:none!important;transition:none!important}
       }
@@ -312,8 +306,9 @@ const herInitial = "D";
 
     <main class="wrap">
       <section class="card" aria-label="Valentine invitation">
-        <div class="top-emojis" aria-hidden="true">💘 💖 💞 💗 💓</div>
+        <div class="sparkles" id="sparkles" aria-hidden="true"></div>
 
+        <div class="top-emojis" aria-hidden="true">💘 💖 💞 💗 💓</div>
         <div class="mini"><span class="dot"></span> a tiny question with a big smile 🧸</div>
 
         <h1>{herName}, will you be my Valentine?</h1>
@@ -332,24 +327,20 @@ const herInitial = "D";
 
         <div class="teddy-row" aria-hidden="true">🧸💗 🧸💗 🧸</div>
 
-        <!-- Hug animation row (shows only after YES click) -->
         <div class="hug" id="hug" aria-hidden="true">
-          <span class="spark">✨</span>
-          <span class="bear">🧸</span>
-          <span class="heart2">💖</span>
-          <span class="bear">🧸</span>
-          <span class="spark">✨</span>
+          <span class="spark">✨</span><span class="bear">🧸</span><span class="heart2">💖</span><span class="bear">🧸</span><span class="spark">✨</span>
         </div>
 
         <div class="actions" aria-label="Response buttons">
           <a class="btn btn-yes" id="yesBtn" href={yesLink}>
             Yes, I will <span aria-hidden="true">🎆</span>
           </a>
-
-          <button class="btn btn-no" id="noBtn" type="button" aria-disabled="true" tabindex="-1">
-            <span class="ghost">No, not this time</span>
-          </button>
         </div>
+
+        <!-- Floating NO (unclickable) -->
+        <button class="btn btn-no" id="noBtn" type="button" aria-disabled="true" tabindex="-1">
+          No, not this time
+        </button>
 
         <p class="foot">P.S. If you say yes, I owe you a proper date. 🧸💖</p>
       </section>
@@ -369,35 +360,84 @@ const herInitial = "D";
         heartsHost.appendChild(s);
       }
 
-      // Runaway "No" (still unclickable)
+      // sparkles inside card
+      const sparkHost = document.getElementById("sparkles");
+      const sparkChars = ["✨","💖","⋆","✦","✧"];
+      for (let i = 0; i < 10; i++) {
+        const sp = document.createElement("div");
+        sp.className = "spark";
+        sp.textContent = sparkChars[i % sparkChars.length];
+        sp.style.setProperty("--sx", (10 + Math.random() * 80) + "%");
+        sp.style.setProperty("--sy", (18 + Math.random() * 58) + "%");
+        sp.style.setProperty("--ss", (14 + Math.random() * 16) + "px");
+        sp.style.animationDelay = (Math.random() * 2.4) + "s";
+        sparkHost.appendChild(sp);
+      }
+
+      // Floating "No" (DVD bounce inside card)
       const noBtn = document.getElementById("noBtn");
       const card = document.querySelector(".card");
 
-      function moveNoButton() {
+      let vx = 1.6, vy = 1.25;
+      let px = 18, py = 18;
+      let floatRAF = null;
+
+      function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+      function step(){
         const rect = card.getBoundingClientRect();
         const b = noBtn.getBoundingClientRect();
-        const pad = 14;
-        const maxX = rect.width - b.width - pad * 2;
-        const maxY = rect.height - b.height - pad * 2;
-        const x = pad + Math.random() * Math.max(0, maxX);
-        const y = pad + Math.random() * Math.max(0, maxY);
-        noBtn.style.position = "absolute";
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
-        noBtn.style.transform = "translateZ(0)";
+
+        // width/height of card coordinate system
+        const w = rect.width;
+        const h = rect.height;
+
+        // button size (use actual)
+        const bw = b.width;
+        const bh = b.height;
+
+        const pad = 12;
+        const maxX = Math.max(pad, w - bw - pad);
+        const maxY = Math.max(pad, h - bh - pad);
+
+        px += vx;
+        py += vy;
+
+        if (px <= pad || px >= maxX) vx *= -1;
+        if (py <= pad || py >= maxY) vy *= -1;
+
+        px = clamp(px, pad, maxX);
+        py = clamp(py, pad, maxY);
+
+        noBtn.style.left = px + "px";
+        noBtn.style.top = py + "px";
+
+        floatRAF = requestAnimationFrame(step);
       }
 
+      // start after layout
+      window.addEventListener("load", () => {
+        // random initial position
+        const rect = card.getBoundingClientRect();
+        px = 16 + Math.random() * (rect.width * 0.45);
+        py = 16 + Math.random() * (rect.height * 0.35);
+        step();
+      });
+
+      // also “run away” if cursor gets close (adds playfulness)
       window.addEventListener("mousemove", (e) => {
         const r = noBtn.getBoundingClientRect();
         const dx = e.clientX - (r.left + r.width / 2);
         const dy = e.clientY - (r.top + r.height / 2);
         const dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < 130) moveNoButton();
+        if (dist < 140) {
+          // quick nudge away
+          vx = (dx > 0 ? -1 : 1) * (1.8 + Math.random()*0.8);
+          vy = (dy > 0 ? -1 : 1) * (1.4 + Math.random()*0.7);
+        }
       });
-      window.addEventListener("touchstart", () => moveNoButton(), { passive: true });
-      noBtn.addEventListener("mouseenter", moveNoButton);
 
-      // Fireworks on YES (canvas particles) + teddy hug reveal
+      // Fireworks on YES + teddy hug reveal
       const yesBtn = document.getElementById("yesBtn");
       const hug = document.getElementById("hug");
 
@@ -451,7 +491,6 @@ const herInitial = "D";
           ctx.arc(p.x, p.y, p.size * dpr, 0, Math.PI * 2);
           ctx.fill();
         }
-
         ctx.globalAlpha = 1;
 
         if (particles.length > 0) raf = requestAnimationFrame(tick);
@@ -464,11 +503,8 @@ const herInitial = "D";
 
       yesBtn.addEventListener("click", (e) => {
         e.preventDefault();
-
-        // show teddy hug
         hug.classList.add("show");
 
-        // fireworks near button + a couple around the top
         const r = yesBtn.getBoundingClientRect();
         const x = (r.left + r.width / 2) * dpr;
         const y = (r.top + r.height / 2) * dpr;
@@ -479,14 +515,12 @@ const herInitial = "D";
 
         if (!raf) tick();
 
-        // tiny glow feedback
         yesBtn.style.filter = "brightness(1.08)";
         setTimeout(() => (yesBtn.style.filter = ""), 400);
 
-        // navigate after a short moment
         setTimeout(() => {
           window.location.href = yesBtn.getAttribute("href");
-        }, 750);
+        }, 800);
       });
     </script>
   </body>
