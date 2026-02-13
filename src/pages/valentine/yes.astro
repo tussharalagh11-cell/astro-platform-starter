@@ -1,27 +1,26 @@
 ---
----
 const memories = [
-  { src: "/images/1.jpeg", caption: "Memory 1", date: "Start" },
-  { src: "/images/2.jpeg", caption: "Memory 2", date: "Moments" },
-  { src: "/images/3.jpg", caption: "Memory 3", date: "Together" },
-  { src: "/images/4.jpg", caption: "Memory 4", date: "Fun" },
-  { src: "/images/5.jpg", caption: "Memory 5", date: "Smiles" },
-  { src: "/images/6.jpg", caption: "Memory 6", date: "Laughs" },
-  { src: "/images/7.jpg", caption: "Memory 7", date: "Adventure" },
-  { src: "/images/8.jpg", caption: "Memory 8", date: "Travel" },
-  { src: "/images/9.jpg", caption: "Memory 9", date: "Joy" },
-  { src: "/images/10.jpg", caption: "Memory 10", date: "Love" },
-  { src: "/images/11.jpg", caption: "Memory 11", date: "Days" },
-  { src: "/images/12.jpg", caption: "Memory 12", date: "Nights" },
-  { src: "/images/13.jpg", caption: "Memory 13", date: "Magic" },
-  { src: "/images/14.jpg", caption: "Memory 14", date: "Forever" },
-  { src: "/images/15.jpg", caption: "Memory 15", date: "Special" },
-  { src: "/images/16.jpg", caption: "Memory 16", date: "Always" },
-  { src: "/images/17.png", caption: "Memory 17", date: "Beautiful" },
-  { src: "/images/18.png", caption: "Memory 18", date: "Sweet" },
-  { src: "/images/19.png", caption: "Memory 19", date: "Perfect" },
+  { src: "/images/1.jpeg",  type: "image", caption: "Memory 1",  date: "Start" },
+  { src: "/images/2.jpeg",  type: "image", caption: "Memory 2",  date: "Moments" },
+  { src: "/images/3.jpg",   type: "image", caption: "Memory 3",  date: "Together" },
+  { src: "/images/4.jpg",   type: "image", caption: "Memory 4",  date: "Fun" },
+  { src: "/images/5.jpg",   type: "image", caption: "Memory 5",  date: "Smiles" },
+  { src: "/images/6.jpg",   type: "image", caption: "Memory 6",  date: "Laughs" },
+  { src: "/images/7.jpg",   type: "image", caption: "Memory 7",  date: "Adventure" },
+  { src: "/images/8.jpg",   type: "image", caption: "Memory 8",  date: "Travel" },
+  { src: "/images/9.jpg",   type: "image", caption: "Memory 9",  date: "Joy" },
+  { src: "/images/10.jpg",  type: "image", caption: "Memory 10", date: "Love" },
+  { src: "/images/11.jpg",  type: "image", caption: "Memory 11", date: "Days" },
+  { src: "/images/12.jpg",  type: "image", caption: "Memory 12", date: "Nights" },
+  { src: "/images/13.jpg",  type: "image", caption: "Memory 13", date: "Magic" },
+  { src: "/images/14.jpg",  type: "image", caption: "Memory 14", date: "Forever" },
+  { src: "/images/15.jpg",  type: "image", caption: "Memory 15", date: "Special" },
+  { src: "/images/16.jpg",  type: "image", caption: "Memory 16", date: "Always" },
+  { src: "/images/17.png",  type: "image", caption: "Memory 17", date: "Beautiful" },
+  { src: "/images/18.png",  type: "image", caption: "Memory 18", date: "Sweet" },
+  { src: "/images/19.png",  type: "image", caption: "Memory 19", date: "Perfect" },
+  { src: "/images/20.mp4",  type: "video", caption: "Memory 20 (Video)", date: "Replay" },
 ];
-
 
 const backLink = "/valentine";
 ---
@@ -46,7 +45,6 @@ const backLink = "/valentine";
 
         --pink1: #ff7ac8;
         --pink2: #f73c72;
-        --blue1: #8ed6ff;
         --blue2: #548bff;
 
         --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
@@ -166,6 +164,8 @@ const backLink = "/valentine";
         align-items: center;
         gap: 10px;
         cursor: pointer;
+        background: rgba(255,255,255,0.06);
+        color: rgba(255,255,255,0.92);
       }
       .btn:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(247,146,255,0.16); }
       .btn:active { transform: translateY(0px) scale(0.99); }
@@ -174,10 +174,6 @@ const backLink = "/valentine";
         background: linear-gradient(135deg, var(--pink1), var(--pink2));
         color: #16010f;
         border-color: rgba(255,122,200,0.35);
-      }
-      .btn-ghost {
-        background: rgba(255,255,255,0.06);
-        color: rgba(255,255,255,0.9);
       }
 
       .divider { height: 1px; background: rgba(255,255,255,0.08); }
@@ -203,6 +199,7 @@ const backLink = "/valentine";
         margin: 0;
         color: rgba(255,255,255,0.62);
         font-size: 0.95rem;
+        font-family: var(--mono);
       }
 
       .story {
@@ -222,12 +219,7 @@ const backLink = "/valentine";
         opacity: 0.55;
       }
 
-      .event {
-        position: relative;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
+      .event { position: relative; }
       .pin {
         position: absolute;
         left: -2px;
@@ -248,21 +240,39 @@ const backLink = "/valentine";
         aspect-ratio: 16 / 9;
         transform: translateY(0);
         transition: transform 0.25s ease, box-shadow 0.25s ease;
+        padding: 0;
+        width: 100%;
+        text-align: left;
       }
       .tile:hover {
         transform: translateY(-2px);
         box-shadow: 0 18px 50px rgba(0,0,0,0.25);
       }
-      .tile img {
+
+      .tile img, .tile video {
         width: 100%;
         height: 100%;
-        object-fit: cover;
         display: block;
+        object-fit: cover;
         transform: scale(1.02);
         transition: transform 0.35s ease, filter 0.35s ease;
         filter: saturate(1.05);
       }
-      .tile:hover img { transform: scale(1.08); filter: saturate(1.18); }
+      .tile:hover img, .tile:hover video { transform: scale(1.08); filter: saturate(1.18); }
+
+      .video-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        padding: 8px 10px;
+        border-radius: 999px;
+        background: rgba(0,0,0,0.45);
+        border: 1px solid rgba(255,255,255,0.16);
+        color: rgba(255,255,255,0.9);
+        backdrop-filter: blur(8px);
+      }
 
       /* Caption overlay on tiles */
       .cap {
@@ -271,7 +281,6 @@ const backLink = "/valentine";
         padding: 12px 12px 12px;
         background: linear-gradient(180deg, transparent, rgba(0,0,0,0.65));
         color: rgba(255,255,255,0.92);
-        text-align: left;
       }
       .cap .date {
         font-family: var(--mono);
@@ -309,9 +318,7 @@ const backLink = "/valentine";
         opacity: 0;
         animation: cinIn 240ms ease forwards;
       }
-      @keyframes cinIn {
-        to { transform: scale(1); opacity: 1; }
-      }
+      @keyframes cinIn { to { transform: scale(1); opacity: 1; } }
 
       .lb-bar {
         display: flex;
@@ -325,13 +332,7 @@ const backLink = "/valentine";
         color: rgba(255,255,255,0.72);
         font-size: 0.85rem;
       }
-
-      .lb-controls {
-        display: inline-flex;
-        gap: 8px;
-        align-items: center;
-      }
-
+      .lb-controls { display: inline-flex; gap: 8px; align-items: center; }
       .iconbtn {
         background: rgba(255,255,255,0.06);
         color: rgba(255,255,255,0.88);
@@ -350,19 +351,24 @@ const backLink = "/valentine";
         background: rgba(0,0,0,0.22);
         display: grid;
         place-items: center;
+        min-height: 45vh;
       }
 
-      .lb-img {
+      .lb-img, .lb-video {
         width: 100%;
         height: auto;
         max-height: 76vh;
         object-fit: contain;
-        display: block;
+        display: none;
         opacity: 0;
         transform: scale(0.995);
         transition: opacity 220ms ease, transform 220ms ease;
+        background: rgba(0,0,0,0.22);
       }
-      .lb-img.show {
+      .show {
+        display: block;
+      }
+      .fadeIn {
         opacity: 1;
         transform: scale(1);
       }
@@ -399,11 +405,6 @@ const backLink = "/valentine";
         background: rgba(255,255,255,0.02);
       }
 
-      @media (min-width: 860px) {
-        .event { grid-template-columns: 1fr; }
-        .tile { aspect-ratio: 21 / 9; }
-      }
-
       @media (prefers-reduced-motion: reduce) {
         * { animation: none !important; transition: none !important; }
       }
@@ -411,7 +412,6 @@ const backLink = "/valentine";
   </head>
 
   <body>
-    <!-- Floating heart particles -->
     <div class="hearts" aria-hidden="true" id="hearts"></div>
 
     <main class="wrap">
@@ -420,13 +420,13 @@ const backLink = "/valentine";
           <div class="tag"><span class="dot"></span> ✅ git merge origin/love — success</div>
           <h1>It’s a YES 💖</h1>
           <p class="sub">
-            Welcome to our little timeline. Tap a moment to view it full-screen.
-            (On mobile: swipe left/right to navigate.)
+            Tap a memory to view it full-screen. On mobile you can swipe left/right.
+            Press ▶ for slideshow (it pauses on video unless you hit play).
           </p>
 
           <div class="actions">
             <a class="btn btn-primary" href={backLink}>Back to invite</a>
-            <a class="btn btn-ghost" href="#timeline">Jump to timeline ↓</a>
+            <a class="btn" href="#timeline">Jump to timeline ↓</a>
           </div>
         </div>
 
@@ -435,7 +435,7 @@ const backLink = "/valentine";
         <section class="timeline" id="timeline" aria-label="Timeline story layout">
           <div class="timeline-head">
             <h2>Our Story Timeline</h2>
-            <p class="hint">Tip: open a photo → press ▶ to auto-play slideshow.</p>
+            <p class="hint">Swipe • Arrow keys • ESC closes • Space toggles slideshow</p>
           </div>
 
           <div class="story">
@@ -448,11 +448,20 @@ const backLink = "/valentine";
                   type="button"
                   data-idx={String(idx)}
                   data-src={m.src}
+                  data-type={m.type}
                   data-date={m.date}
                   data-caption={m.caption}
                   aria-label={`Open ${m.date}`}
                 >
-                  <img src={m.src} alt={m.caption} loading="lazy" />
+                  {m.type === "video" ? (
+                    <>
+                      <video src={m.src} muted playsinline preload="metadata"></video>
+                      <div class="video-badge">▶ video</div>
+                    </>
+                  ) : (
+                    <img src={m.src} alt={m.caption} loading="lazy" />
+                  )}
+
                   <div class="cap">
                     <div class="date">{m.date}</div>
                     <div class="text">{m.caption}</div>
@@ -467,10 +476,9 @@ const backLink = "/valentine";
 
     <!-- Lightbox -->
     <div class="lightbox" id="lb" aria-hidden="true">
-      <div class="lb-inner" role="dialog" aria-modal="true" aria-label="Image viewer">
+      <div class="lb-inner" role="dialog" aria-modal="true" aria-label="Viewer">
         <div class="lb-bar">
           <span id="lbTitle">memory</span>
-
           <div class="lb-controls">
             <button class="iconbtn" type="button" id="prevBtn" aria-label="Previous">◀</button>
             <button class="iconbtn" type="button" id="playBtn" aria-label="Play slideshow">▶</button>
@@ -481,24 +489,25 @@ const backLink = "/valentine";
 
         <div class="lb-stage" id="lbStage">
           <img class="lb-img" id="lbImg" alt="" />
-          <div class="lb-caption" id="lbCaption">
+          <video class="lb-video" id="lbVideo" controls playsinline></video>
+
+          <div class="lb-caption">
             <div class="date" id="lbDate"></div>
             <div class="text" id="lbText"></div>
           </div>
         </div>
 
         <div class="lb-hint">
-          Swipe ◀ ▶ on mobile • Arrow keys on desktop • ESC to close
+          Mobile: swipe ◀ ▶ • Desktop: ← → • Space slideshow • Video: use controls
         </div>
       </div>
     </div>
 
     <script>
-      // ---------- Ambient floating hearts (particles) ----------
+      // Floating hearts particles
       const heartsHost = document.getElementById("hearts");
       const heartChars = ["❤", "♥", "♡", "💖", "✨"];
       const heartCount = 18;
-
       for (let i = 0; i < heartCount; i++) {
         const s = document.createElement("span");
         s.textContent = heartChars[i % heartChars.length];
@@ -509,14 +518,17 @@ const backLink = "/valentine";
         heartsHost.appendChild(s);
       }
 
-      // ---------- Lightbox + slideshow + swipe ----------
+      // Lightbox + slideshow + swipe + video support
       const tiles = Array.from(document.querySelectorAll(".tile"));
       const lb = document.getElementById("lb");
+      const lbStage = document.getElementById("lbStage");
+
       const lbImg = document.getElementById("lbImg");
+      const lbVideo = document.getElementById("lbVideo");
+
       const lbTitle = document.getElementById("lbTitle");
       const lbDate = document.getElementById("lbDate");
       const lbText = document.getElementById("lbText");
-      const lbStage = document.getElementById("lbStage");
 
       const prevBtn = document.getElementById("prevBtn");
       const nextBtn = document.getElementById("nextBtn");
@@ -528,6 +540,10 @@ const backLink = "/valentine";
       let timer = null;
       const intervalMs = 2400;
 
+      function isOpen() {
+        return lb.classList.contains("open");
+      }
+
       function setPlaying(on) {
         playing = on;
         playBtn.textContent = playing ? "⏸" : "▶";
@@ -537,7 +553,15 @@ const backLink = "/valentine";
         timer = null;
 
         if (playing) {
-          timer = setInterval(() => go(1), intervalMs);
+          timer = setInterval(() => {
+            // If current is video, don’t auto-advance mid-video — just pause slideshow.
+            const t = tiles[current];
+            if (t?.dataset.type === "video") {
+              setPlaying(false);
+              return;
+            }
+            go(1);
+          }, intervalMs);
         }
       }
 
@@ -554,10 +578,21 @@ const backLink = "/valentine";
         lb.setAttribute("aria-hidden", "true");
         document.body.style.overflow = "";
         setPlaying(false);
-        // clear image for cleanliness
+        stopVideo();
+        clearMedia();
+      }
+
+      function clearMedia() {
+        lbImg.classList.remove("show", "fadeIn");
+        lbVideo.classList.remove("show", "fadeIn");
         lbImg.src = "";
         lbImg.alt = "";
-        lbImg.classList.remove("show");
+        lbVideo.removeAttribute("src");
+        lbVideo.load();
+      }
+
+      function stopVideo() {
+        try { lbVideo.pause(); } catch {}
       }
 
       function render() {
@@ -565,6 +600,7 @@ const backLink = "/valentine";
         if (!t) return;
 
         const src = t.dataset.src || "";
+        const type = t.dataset.type || "image";
         const date = t.dataset.date || "";
         const caption = t.dataset.caption || "";
         const title = (src.split("/").pop() || "memory");
@@ -573,15 +609,40 @@ const backLink = "/valentine";
         lbDate.textContent = date;
         lbText.textContent = caption;
 
-        // cinematic image swap
-        lbImg.classList.remove("show");
-        const img = new Image();
-        img.onload = () => {
-          lbImg.src = src;
-          lbImg.alt = caption;
-          requestAnimationFrame(() => lbImg.classList.add("show"));
-        };
-        img.src = src;
+        // Stop any previous video
+        stopVideo();
+
+        // Prepare transitions
+        lbImg.classList.remove("fadeIn");
+        lbVideo.classList.remove("fadeIn");
+
+        if (type === "video") {
+          // Show video, hide image
+          lbImg.classList.remove("show");
+          lbVideo.classList.add("show");
+
+          lbVideo.src = src;
+          lbVideo.load();
+
+          // cinematic fade in
+          requestAnimationFrame(() => lbVideo.classList.add("fadeIn"));
+
+          // If slideshow is on, pause it for video
+          if (playing) setPlaying(false);
+        } else {
+          // Show image, hide video
+          lbVideo.classList.remove("show");
+          lbImg.classList.add("show");
+
+          // Preload image then swap
+          const img = new Image();
+          img.onload = () => {
+            lbImg.src = src;
+            lbImg.alt = caption;
+            requestAnimationFrame(() => lbImg.classList.add("fadeIn"));
+          };
+          img.src = src;
+        }
       }
 
       function go(dir) {
@@ -589,10 +650,8 @@ const backLink = "/valentine";
         render();
       }
 
-      // Open on tile click
-      tiles.forEach((t, i) => {
-        t.addEventListener("click", () => openLB(i));
-      });
+      // Tile open
+      tiles.forEach((t, i) => t.addEventListener("click", () => openLB(i)));
 
       // Controls
       prevBtn.addEventListener("click", () => go(-1));
@@ -600,23 +659,22 @@ const backLink = "/valentine";
       playBtn.addEventListener("click", () => setPlaying(!playing));
       closeBtn.addEventListener("click", closeLB);
 
-      // Click outside inner closes (on overlay background only)
+      // Click overlay background closes
       lb.addEventListener("click", (e) => {
         if (e.target === lb) closeLB();
       });
 
-      // Keyboard nav
+      // Keyboard
       window.addEventListener("keydown", (e) => {
-        if (!lb.classList.contains("open")) return;
+        if (!isOpen()) return;
         if (e.key === "Escape") closeLB();
         if (e.key === "ArrowLeft") go(-1);
         if (e.key === "ArrowRight") go(1);
         if (e.key === " ") { e.preventDefault(); setPlaying(!playing); }
       });
 
-      // Swipe gestures (mobile) — on image stage
-      let x0 = null;
-      let y0 = null;
+      // Swipe gestures (mobile)
+      let x0 = null, y0 = null;
 
       function onTouchStart(e) {
         const t = e.touches && e.touches[0];
@@ -626,10 +684,9 @@ const backLink = "/valentine";
       }
 
       function onTouchMove(e) {
-        // prevent scroll while in lightbox stage
-        if (!lb.classList.contains("open")) return;
-        if (!x0 || !y0) return;
-        e.preventDefault();
+        if (!isOpen()) return;
+        if (x0 === null || y0 === null) return;
+        e.preventDefault(); // prevent background scroll while swiping
       }
 
       function onTouchEnd(e) {
@@ -639,23 +696,26 @@ const backLink = "/valentine";
         const dx = t.clientX - x0;
         const dy = t.clientY - y0;
 
-        // horizontal swipe threshold
         if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
           if (dx < 0) go(1);
           else go(-1);
         }
 
-        x0 = null;
-        y0 = null;
+        x0 = null; y0 = null;
       }
 
       lbStage.addEventListener("touchstart", onTouchStart, { passive: true });
       lbStage.addEventListener("touchmove", onTouchMove, { passive: false });
       lbStage.addEventListener("touchend", onTouchEnd, { passive: true });
 
-      // Safety: stop slideshow if tab hidden
+      // Stop slideshow if tab hidden
       document.addEventListener("visibilitychange", () => {
         if (document.hidden) setPlaying(false);
+      });
+
+      // If video starts playing, pause slideshow
+      lbVideo.addEventListener("play", () => {
+        if (playing) setPlaying(false);
       });
     </script>
   </body>
