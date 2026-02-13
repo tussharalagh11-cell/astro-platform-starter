@@ -1,21 +1,17 @@
 ---
 const memories = [
-  { src: "/images/3.jpg",  type: "image", caption: "The day everything felt lighter.", date: "Together" },
-  { src: "/images/4.jpg",  type: "image", caption: "That laugh I wish I could replay.", date: "Fun" },
-  { src: "/images/5.jpg",  type: "image", caption: "Soft smiles, louder heartbeats.", date: "Smiles" },
-  { src: "/images/6.jpg",  type: "image", caption: "Little moments that became big memories.", date: "Laughs" },
-  { src: "/images/7.jpg",  type: "image", caption: "You + me + a little adventure.", date: "Adventure" },
-  { src: "/images/8.jpg",  type: "image", caption: "Wherever we go, it feels like home.", date: "Travel" },
-  { src: "/images/9.jpg",  type: "image", caption: "Quiet joy. The kind that stays.", date: "Joy" },
-  { src: "/images/10.jpg", type: "image", caption: "The sweetest kind of closeness.", date: "Love" },
-  { src: "/images/11.jpg", type: "image", caption: "A simple day, made unforgettable.", date: "Days" },
-  { src: "/images/15.jpg", type: "image", caption: "A memory I keep smiling at.", date: "Special" },
-  { src: "/images/16.jpg", type: "image", caption: "Just you — and that calm I like.", date: "Always" },
-  { src: "/images/20.mp4", type: "video", caption: "A little replay of us. 💖", date: "Replay" },
+  { src: "/images/3.jpg",  caption: "The day everything felt lighter.", date: "Together" },
+  { src: "/images/4.jpg",  caption: "That laugh I wish I could replay.", date: "Fun" },
+  { src: "/images/5.jpg",  caption: "Soft smiles, louder heartbeats.", date: "Smiles" },
+  { src: "/images/6.jpg",  caption: "Little moments that became big memories.", date: "Laughs" },
+  { src: "/images/7.jpg",  caption: "You + me + a little adventure.", date: "Adventure" },
+  { src: "/images/8.jpg",  caption: "Wherever we go, it feels like home.", date: "Travel" },
+  { src: "/images/9.jpg",  caption: "Quiet joy. The kind that stays.", date: "Joy" },
+  { src: "/images/10.jpg", caption: "The sweetest kind of closeness.", date: "Love" },
+  { src: "/images/11.jpg", caption: "A simple day, made unforgettable.", date: "Days" },
+  { src: "/images/15.jpg", caption: "A memory I keep smiling at.", date: "Special" },
+  { src: "/images/16.jpg", caption: "Just you — and that calm I like.", date: "Always" },
 ];
-
-// Shown in the timeline tile for the video (NOT the actual video)
-const videoThumb = "/images/16.jpg";
 
 const backLink = "/valentine";
 ---
@@ -36,7 +32,6 @@ const backLink = "/valentine";
         --stroke:rgba(255,255,255,.12);
         --shadow:rgba(8,2,18,.55);
         --pink1:#ff7ac8; --pink2:#f73c72; --blue2:#548bff;
-        --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
         --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       }
 
@@ -165,201 +160,76 @@ const backLink = "/valentine";
 
       .divider{height:1px;background:rgba(255,255,255,.08)}
 
-      /* timeline */
-      .timeline{padding:clamp(16px,3vw,26px)}
-      .timeline-head{
+      /* Static gallery */
+      .gallery{
+        padding:clamp(16px,3vw,26px);
+      }
+      .gallery-head{
         display:flex;
         align-items:baseline;
         justify-content:space-between;
         gap:12px;
-        margin-bottom:14px;
         flex-wrap:wrap;
+        margin-bottom:14px;
       }
-      .timeline h2{margin:0;font-size:1.15rem;letter-spacing:.01em}
+      .gallery h2{
+        margin:0;
+        font-size:1.15rem;
+        letter-spacing:.01em;
+      }
       .hint{
         margin:0;
         color:rgba(255,255,255,.62);
         font-size:.92rem;
       }
 
-      .story{
-        position:relative;
-        padding-left:22px;
+      .grid{
         display:grid;
         gap:14px;
+        grid-template-columns: 1fr;
       }
-      .story::before{
-        content:"";
-        position:absolute;
-        left:10px; top:4px; bottom:4px;
-        width:2px;
-        background:linear-gradient(180deg, rgba(255,122,200,.65), rgba(84,139,255,.18));
-        opacity:.6;
-      }
-      .event{position:relative}
-      .pin{
-        position:absolute;
-        left:-2px;
-        top:18px;
-        width:18px;height:18px;border-radius:50%;
-        background:linear-gradient(135deg, rgba(255,122,200,.95), rgba(84,139,255,.85));
-        box-shadow:0 0 0 4px rgba(255,255,255,.06), 0 16px 30px rgba(255,122,200,.18);
+      @media (min-width: 760px){
+        .grid{ grid-template-columns: 1fr 1fr; }
       }
 
-      .tile{
-        position:relative;
+      .mem{
         border-radius:20px;
         overflow:hidden;
         border:1px solid rgba(255,255,255,.12);
         background:rgba(0,0,0,.16);
-        cursor:pointer;
-        aspect-ratio:16/9;
-        transition:transform .25s ease, box-shadow .25s ease;
-        padding:0;
+        box-shadow:0 18px 50px rgba(0,0,0,.18);
+      }
+
+      .media{
         width:100%;
-        text-align:left;
-      }
-      .tile:hover{transform:translateY(-2px);box-shadow:0 18px 50px rgba(0,0,0,.25)}
-
-      .tile img{
-        width:100%;height:100%;
+        /* fixed height so every card is consistent */
+        height: clamp(220px, 32vw, 320px);
+        background: rgba(0,0,0,.22);
         display:block;
-        object-fit:cover;
-        transform:scale(1.02);
-        transition:transform .35s ease, filter .35s ease;
-        filter:saturate(1.08);
       }
-      .tile:hover img{transform:scale(1.08);filter:saturate(1.18)}
-
-      .video-badge{
-        position:absolute;
-        top:12px; right:12px;
-        font-size:.82rem;
-        padding:8px 10px;
-        border-radius:999px;
-        background:rgba(0,0,0,.45);
-        border:1px solid rgba(255,255,255,.16);
-        color:rgba(255,255,255,.9);
-        backdrop-filter: blur(8px);
+      .media img{
+        width:100%;
+        height:100%;
+        object-fit: cover; /* fills nicely like your screenshot */
+        display:block;
+        transform: scale(1.01);
+        filter: saturate(1.06);
       }
 
-      .cap{
-        position:absolute;
-        inset:auto 0 0 0;
-        padding:12px 12px 12px;
-        background:linear-gradient(180deg, transparent, rgba(0,0,0,.72));
-        color:rgba(255,255,255,.94);
+      .meta{
+        padding:12px 14px 14px;
+        background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.25));
       }
-      .cap .date{
+      .date{
         font-size:.84rem;
-        opacity:.9;
+        opacity:.88;
         letter-spacing:.02em;
       }
-      .cap .text{
+      .cap{
         margin-top:4px;
         font-size:1.02rem;
         line-height:1.35;
         font-weight:900;
-      }
-
-      /* Lightbox */
-      .lightbox{
-        position:fixed;
-        inset:0;
-        display:none;
-        place-items:center;
-        background:rgba(0,0,0,.80);
-        z-index:99999;
-        padding:18px;
-      }
-      .lightbox.open{display:grid}
-
-      .lb-inner{
-        width:min(1020px,100%);
-        background:rgba(16,5,32,.80);
-        border:1px solid rgba(255,255,255,.14);
-        border-radius:22px;
-        overflow:hidden;
-        box-shadow:0 30px 90px rgba(0,0,0,.55);
-        transform:scale(.985);
-        opacity:0;
-        animation:cinIn 240ms ease forwards;
-      }
-      @keyframes cinIn{to{transform:scale(1);opacity:1}}
-
-      .lb-bar{
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:10px;
-        padding:12px 14px;
-        background:rgba(255,255,255,.04);
-        border-bottom:1px solid rgba(255,255,255,.08);
-        color:rgba(255,255,255,.78);
-        font-size:.9rem;
-      }
-      .lb-title{
-        font-weight:800;
-        letter-spacing:.01em;
-      }
-      .lb-controls{display:inline-flex;gap:8px;align-items:center}
-      .iconbtn{
-        background:rgba(255,255,255,.06);
-        color:rgba(255,255,255,.9);
-        border:1px solid rgba(255,255,255,.14);
-        border-radius:999px;
-        padding:8px 12px;
-        cursor:pointer;
-        user-select:none;
-        transition:transform .15s ease, filter .15s ease;
-      }
-      .iconbtn:hover{transform:translateY(-1px);filter:brightness(1.08)}
-      .iconbtn:active{transform:translateY(0) scale(.99)}
-
-      .lb-stage{
-        position:relative;
-        background:rgba(0,0,0,.35);
-        display:grid;
-        place-items:center;
-        min-height:55vh;
-      }
-
-      .lb-media{
-        width:100%;
-        display:grid;
-        place-items:center;
-      }
-
-      .lb-media img,
-      .lb-media video{
-        width:100%;
-        max-height:76vh;
-        object-fit:contain;
-        background:rgba(0,0,0,.22);
-      }
-
-      .lb-caption{
-        position:absolute;
-        left:0; right:0; bottom:0;
-        padding:14px 14px 16px;
-        background:linear-gradient(180deg, transparent, rgba(0,0,0,.82));
-        color:rgba(255,255,255,.94);
-        text-align:left;
-        pointer-events:none;
-      }
-      .lb-caption .date{font-size:.86rem;opacity:.86}
-      .lb-caption .text{margin-top:4px;font-size:1.05rem;line-height:1.35;font-weight:950}
-
-      .lb-hint{
-        padding:10px 14px 14px;
-        color:rgba(255,255,255,.62);
-        font-size:.85rem;
-        border-top:1px solid rgba(255,255,255,.08);
-        background:rgba(255,255,255,.02);
-      }
-
-      @media (prefers-reduced-motion: reduce){
-        *{animation:none!important;transition:none!important}
       }
     </style>
   </head>
@@ -368,92 +238,45 @@ const backLink = "/valentine";
     <div class="hearts" aria-hidden="true" id="hearts"></div>
 
     <main class="wrap">
-      <section class="card" aria-label="Yes page with timeline gallery">
+      <section class="card" aria-label="Yes page gallery">
         <div class="hero">
           <div class="pill"><span class="dot"></span> I’m really happy you said yes 💖</div>
           <h1>Now it’s official.</h1>
           <p class="sub">
-            I don’t want perfect — I want <b>us</b>.  
-            Tap a memory to see it full-screen. Swipe left/right like a little story.
+            I don’t want perfect — I want <b>us</b>.
+            These are a few little moments I keep smiling at.
           </p>
 
           <div class="actions">
             <a class="btn btn-primary" href={backLink}>Back</a>
-            <a class="btn" href="#timeline">See our story ↓</a>
+            <a class="btn" href="#gallery">See our story ↓</a>
           </div>
         </div>
 
         <div class="divider"></div>
 
-        <section class="timeline" id="timeline" aria-label="Timeline story layout">
-          <div class="timeline-head">
+        <section class="gallery" id="gallery" aria-label="Static gallery">
+          <div class="gallery-head">
             <h2>Little moments I love</h2>
-            <p class="hint">Swipe • Arrow keys • ESC closes • Space toggles slideshow</p>
+            <p class="hint">Just a simple gallery — no clicking, no fuss 💗</p>
           </div>
 
-          <div class="story">
-            {memories.map((m, idx) => (
-              <div class="event">
-                <div class="pin" aria-hidden="true"></div>
-
-                <button
-                  class="tile"
-                  type="button"
-                  data-idx={String(idx)}
-                  data-src={m.src}
-                  data-type={m.type}
-                  data-date={m.date}
-                  data-caption={m.caption}
-                  aria-label={`Open ${m.date}`}
-                >
-                  {m.type === "video" ? (
-                    <>
-                      <img src={videoThumb} alt={m.caption} loading="lazy" />
-                      <div class="video-badge">▶ video</div>
-                    </>
-                  ) : (
-                    <img src={m.src} alt={m.caption} loading="lazy" />
-                  )}
-
-                  <div class="cap">
-                    <div class="date">{m.date}</div>
-                    <div class="text">{m.caption}</div>
-                  </div>
-                </button>
-              </div>
+          <div class="grid">
+            {memories.map((m) => (
+              <article class="mem">
+                <div class="media">
+                  <img src={m.src} alt={m.caption} loading="lazy" />
+                </div>
+                <div class="meta">
+                  <div class="date">{m.date}</div>
+                  <div class="cap">{m.caption}</div>
+                </div>
+              </article>
             ))}
           </div>
         </section>
       </section>
     </main>
-
-    <!-- Lightbox -->
-    <div class="lightbox" id="lb" aria-hidden="true">
-      <div class="lb-inner" role="dialog" aria-modal="true" aria-label="Viewer">
-        <div class="lb-bar">
-          <span class="lb-title" id="lbTitle">Memory</span>
-          <div class="lb-controls">
-            <button class="iconbtn" type="button" id="prevBtn" aria-label="Previous">◀</button>
-            <button class="iconbtn" type="button" id="playBtn" aria-label="Play slideshow">▶</button>
-            <button class="iconbtn" type="button" id="nextBtn" aria-label="Next">▶▶</button>
-            <button class="iconbtn" type="button" id="closeBtn" aria-label="Close">✕</button>
-          </div>
-        </div>
-
-        <div class="lb-stage" id="lbStage">
-          <div class="lb-media" id="lbMedia"></div>
-
-          <div class="lb-caption">
-            <div class="date" id="lbDate"></div>
-            <div class="text" id="lbText"></div>
-          </div>
-        </div>
-
-        <div class="lb-hint">
-          Mobile: swipe ◀ ▶ • Desktop: ← → • Space slideshow • Video: use play controls
-        </div>
-      </div>
-    </div>
 
     <script>
       // floating hearts
@@ -468,197 +291,6 @@ const backLink = "/valentine";
         s.style.setProperty("--d", (4.8 + Math.random() * 4.2) + "s");
         heartsHost.appendChild(s);
       }
-
-      // lightbox + slideshow + swipe
-      const tiles = Array.from(document.querySelectorAll(".tile"));
-      const lb = document.getElementById("lb");
-      const lbStage = document.getElementById("lbStage");
-      const lbMedia = document.getElementById("lbMedia");
-
-      const lbTitle = document.getElementById("lbTitle");
-      const lbDate = document.getElementById("lbDate");
-      const lbText = document.getElementById("lbText");
-
-      const prevBtn = document.getElementById("prevBtn");
-      const nextBtn = document.getElementById("nextBtn");
-      const playBtn = document.getElementById("playBtn");
-      const closeBtn = document.getElementById("closeBtn");
-
-      let current = 0;
-      let playing = false;
-      let timer = null;
-      const intervalMs = 2400;
-
-      function isOpen(){ return lb.classList.contains("open"); }
-
-      function setPlaying(on){
-        playing = on;
-        playBtn.textContent = playing ? "⏸" : "▶";
-        playBtn.setAttribute("aria-label", playing ? "Pause slideshow" : "Play slideshow");
-        if (timer) clearInterval(timer);
-        timer = null;
-
-        if (playing) {
-          timer = setInterval(() => {
-            const t = tiles[current];
-            if (t?.dataset.type === "video") { setPlaying(false); return; }
-            go(1);
-          }, intervalMs);
-        }
-      }
-
-      function clearMedia(){ lbMedia.innerHTML = ""; }
-
-      function stopVideo(){
-        const v = lbMedia.querySelector("video");
-        if (v) {
-          try { v.pause(); } catch {}
-          v.removeAttribute("src");
-          try { v.load(); } catch {}
-        }
-      }
-
-      function openLB(idx){
-        current = idx;
-        lb.classList.add("open");
-        lb.setAttribute("aria-hidden", "false");
-        document.body.style.overflow = "hidden";
-        render();
-      }
-
-      function closeLB(){
-        lb.classList.remove("open");
-        lb.setAttribute("aria-hidden", "true");
-        document.body.style.overflow = "";
-        setPlaying(false);
-        stopVideo();
-        clearMedia();
-      }
-
-      function render(){
-        const t = tiles[current];
-        if (!t) return;
-
-        const src = t.dataset.src || "";
-        const type = t.dataset.type || "image";
-        const date = t.dataset.date || "";
-        const caption = t.dataset.caption || "";
-
-        lbTitle.textContent = (type === "video") ? "A little replay 💖" : "A moment I love";
-        lbDate.textContent = date;
-        lbText.textContent = caption;
-
-        setPlaying(false);
-        stopVideo();
-        clearMedia();
-
-        if (type === "video") {
-          const wrap = document.createElement("div");
-          wrap.style.width = "100%";
-          wrap.style.display = "grid";
-          wrap.style.placeItems = "center";
-
-          const vid = document.createElement("video");
-          vid.controls = true;
-          vid.playsInline = true;
-          vid.preload = "auto";
-          vid.autoplay = true;
-          vid.muted = false;
-          vid.style.width = "100%";
-          vid.style.maxHeight = "76vh";
-          vid.style.objectFit = "contain";
-          vid.style.background = "rgba(0,0,0,0.22)";
-
-          const status = document.createElement("div");
-          status.style.fontFamily = "var(--sans)";
-          status.style.fontSize = "0.95rem";
-          status.style.color = "rgba(255,255,255,0.78)";
-          status.style.padding = "12px 14px";
-          status.style.textAlign = "center";
-          status.textContent = "Loading your video…";
-
-          // If codec is unsupported (common HEVC), we show a romantic fallback message
-          vid.addEventListener("error", () => {
-            status.innerHTML =
-              "This device can’t show this video format (but I promise it’s a cute one).<br/>" +
-              "If you want it to work everywhere, re-upload as <b>H.264 MP4</b> (I can guide you). 💗";
-          });
-
-          vid.addEventListener("canplay", () => { status.textContent = ""; });
-
-          vid.src = src;
-          wrap.appendChild(vid);
-          wrap.appendChild(status);
-          lbMedia.appendChild(wrap);
-
-          setTimeout(() => {
-            const p = vid.play();
-            if (p && typeof p.catch === "function") p.catch(() => {});
-          }, 120);
-        } else {
-          const img = document.createElement("img");
-          img.src = src;
-          img.alt = caption;
-          lbMedia.appendChild(img);
-        }
-      }
-
-      function go(dir){
-        current = (current + dir + tiles.length) % tiles.length;
-        render();
-      }
-
-      // open tile
-      tiles.forEach((t, i) => t.addEventListener("click", () => openLB(i)));
-
-      // controls
-      prevBtn.addEventListener("click", () => go(-1));
-      nextBtn.addEventListener("click", () => go(1));
-      playBtn.addEventListener("click", () => setPlaying(!playing));
-      closeBtn.addEventListener("click", closeLB);
-
-      // click outside closes
-      lb.addEventListener("click", (e) => { if (e.target === lb) closeLB(); });
-
-      // keyboard
-      window.addEventListener("keydown", (e) => {
-        if (!isOpen()) return;
-        if (e.key === "Escape") closeLB();
-        if (e.key === "ArrowLeft") go(-1);
-        if (e.key === "ArrowRight") go(1);
-        if (e.key === " ") { e.preventDefault(); setPlaying(!playing); }
-      });
-
-      // swipe
-      let x0 = null, y0 = null;
-      function onTouchStart(e){
-        const t = e.touches && e.touches[0];
-        if (!t) return;
-        x0 = t.clientX;
-        y0 = t.clientY;
-      }
-      function onTouchMove(e){
-        if (!isOpen()) return;
-        if (x0 === null || y0 === null) return;
-        e.preventDefault();
-      }
-      function onTouchEnd(e){
-        const t = e.changedTouches && e.changedTouches[0];
-        if (!t || x0 === null || y0 === null) return;
-        const dx = t.clientX - x0;
-        const dy = t.clientY - y0;
-        if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
-          if (dx < 0) go(1); else go(-1);
-        }
-        x0 = null; y0 = null;
-      }
-      lbStage.addEventListener("touchstart", onTouchStart, { passive: true });
-      lbStage.addEventListener("touchmove", onTouchMove, { passive: false });
-      lbStage.addEventListener("touchend", onTouchEnd, { passive: true });
-
-      document.addEventListener("visibilitychange", () => {
-        if (document.hidden) setPlaying(false);
-      });
     </script>
   </body>
 </html>
