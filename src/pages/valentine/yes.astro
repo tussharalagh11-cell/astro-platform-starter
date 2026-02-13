@@ -1,7 +1,5 @@
 ---
 const memories = [
-  { src: "/images/1.jpeg",  type: "image", caption: "Memory 1",  date: "Start" },
-  { src: "/images/2.jpeg",  type: "image", caption: "Memory 2",  date: "Moments" },
   { src: "/images/3.jpg",   type: "image", caption: "Memory 3",  date: "Together" },
   { src: "/images/4.jpg",   type: "image", caption: "Memory 4",  date: "Fun" },
   { src: "/images/5.jpg",   type: "image", caption: "Memory 5",  date: "Smiles" },
@@ -11,18 +9,13 @@ const memories = [
   { src: "/images/9.jpg",   type: "image", caption: "Memory 9",  date: "Joy" },
   { src: "/images/10.jpg",  type: "image", caption: "Memory 10", date: "Love" },
   { src: "/images/11.jpg",  type: "image", caption: "Memory 11", date: "Days" },
-  { src: "/images/12.jpg",  type: "image", caption: "Memory 12", date: "Nights" },
-  { src: "/images/13.jpg",  type: "image", caption: "Memory 13", date: "Magic" },
-  { src: "/images/14.jpg",  type: "image", caption: "Memory 14", date: "Forever" },
   { src: "/images/15.jpg",  type: "image", caption: "Memory 15", date: "Special" },
   { src: "/images/16.jpg",  type: "image", caption: "Memory 16", date: "Always" },
-  { src: "/images/17.png",  type: "image", caption: "Memory 17", date: "Beautiful" },
-  { src: "/images/18.png",  type: "image", caption: "Memory 18", date: "Sweet" },
-  { src: "/images/19.png",  type: "image", caption: "Memory 19", date: "Perfect" },
   { src: "/images/20.mp4",  type: "video", caption: "Memory 20 (Video)", date: "Replay" },
 ];
 
 const backLink = "/valentine";
+const videoThumb = "/images/16.jpg"; // thumbnail shown in timeline for the video tile
 ---
 
 <html lang="en">
@@ -179,9 +172,7 @@ const backLink = "/valentine";
       .divider { height: 1px; background: rgba(255,255,255,0.08); }
 
       /* Timeline */
-      .timeline {
-        padding: clamp(16px, 3vw, 26px);
-      }
+      .timeline { padding: clamp(16px, 3vw, 26px); }
       .timeline-head {
         display: flex;
         align-items: baseline;
@@ -190,17 +181,8 @@ const backLink = "/valentine";
         margin-bottom: 14px;
         flex-wrap: wrap;
       }
-      .timeline h2 {
-        margin: 0;
-        font-size: 1.08rem;
-        letter-spacing: 0.02em;
-      }
-      .hint {
-        margin: 0;
-        color: rgba(255,255,255,0.62);
-        font-size: 0.95rem;
-        font-family: var(--mono);
-      }
+      .timeline h2 { margin: 0; font-size: 1.08rem; letter-spacing: 0.02em; }
+      .hint { margin: 0; color: rgba(255,255,255,0.62); font-size: 0.95rem; font-family: var(--mono); }
 
       .story {
         position: relative;
@@ -249,7 +231,7 @@ const backLink = "/valentine";
         box-shadow: 0 18px 50px rgba(0,0,0,0.25);
       }
 
-      .tile img, .tile video {
+      .tile img {
         width: 100%;
         height: 100%;
         display: block;
@@ -258,7 +240,7 @@ const backLink = "/valentine";
         transition: transform 0.35s ease, filter 0.35s ease;
         filter: saturate(1.05);
       }
-      .tile:hover img, .tile:hover video { transform: scale(1.08); filter: saturate(1.18); }
+      .tile:hover img { transform: scale(1.08); filter: saturate(1.18); }
 
       .video-badge {
         position: absolute;
@@ -282,17 +264,8 @@ const backLink = "/valentine";
         background: linear-gradient(180deg, transparent, rgba(0,0,0,0.65));
         color: rgba(255,255,255,0.92);
       }
-      .cap .date {
-        font-family: var(--mono);
-        font-size: 0.82rem;
-        opacity: 0.85;
-      }
-      .cap .text {
-        margin-top: 4px;
-        font-size: 0.98rem;
-        line-height: 1.35;
-        font-weight: 800;
-      }
+      .cap .date { font-family: var(--mono); font-size: 0.82rem; opacity: 0.85; }
+      .cap .text { margin-top: 4px; font-size: 0.98rem; line-height: 1.35; font-weight: 800; }
 
       /* Lightbox */
       .lightbox {
@@ -365,13 +338,8 @@ const backLink = "/valentine";
         transition: opacity 220ms ease, transform 220ms ease;
         background: rgba(0,0,0,0.22);
       }
-      .show {
-        display: block;
-      }
-      .fadeIn {
-        opacity: 1;
-        transform: scale(1);
-      }
+      .show { display: block; }
+      .fadeIn { opacity: 1; transform: scale(1); }
 
       /* Caption overlay in lightbox */
       .lb-caption {
@@ -383,18 +351,10 @@ const backLink = "/valentine";
         background: linear-gradient(180deg, transparent, rgba(0,0,0,0.78));
         color: rgba(255,255,255,0.92);
         text-align: left;
+        pointer-events: none; /* IMPORTANT: don't block video controls */
       }
-      .lb-caption .date {
-        font-family: var(--mono);
-        font-size: 0.82rem;
-        opacity: 0.86;
-      }
-      .lb-caption .text {
-        margin-top: 4px;
-        font-size: 1.02rem;
-        line-height: 1.35;
-        font-weight: 900;
-      }
+      .lb-caption .date { font-family: var(--mono); font-size: 0.82rem; opacity: 0.86; }
+      .lb-caption .text { margin-top: 4px; font-size: 1.02rem; line-height: 1.35; font-weight: 900; }
 
       .lb-hint {
         padding: 10px 14px 14px;
@@ -455,7 +415,8 @@ const backLink = "/valentine";
                 >
                   {m.type === "video" ? (
                     <>
-                      <video src={m.src} muted playsinline preload="metadata"></video>
+                      {/* IMPORTANT: don't render a <video> here. Use thumbnail only. */}
+                      <img src={videoThumb} alt={m.caption} loading="lazy" />
                       <div class="video-badge">▶ video</div>
                     </>
                   ) : (
@@ -554,7 +515,6 @@ const backLink = "/valentine";
 
         if (playing) {
           timer = setInterval(() => {
-            // If current is video, don’t auto-advance mid-video — just pause slideshow.
             const t = tiles[current];
             if (t?.dataset.type === "video") {
               setPlaying(false);
@@ -609,10 +569,7 @@ const backLink = "/valentine";
         lbDate.textContent = date;
         lbText.textContent = caption;
 
-        // Stop any previous video
         stopVideo();
-
-        // Prepare transitions
         lbImg.classList.remove("fadeIn");
         lbVideo.classList.remove("fadeIn");
 
@@ -621,20 +578,32 @@ const backLink = "/valentine";
           lbImg.classList.remove("show");
           lbVideo.classList.add("show");
 
-          lbVideo.src = src;
+          // Hard reset + reload (prevents stuck state)
+          lbVideo.pause();
+          lbVideo.removeAttribute("src");
           lbVideo.load();
 
-          // cinematic fade in
+          lbVideo.src = src;
+          lbVideo.muted = false;      // viewer open is a user gesture
+          lbVideo.playsInline = true;
+          lbVideo.preload = "auto";
+          lbVideo.controls = true;
+
+          lbVideo.load();
           requestAnimationFrame(() => lbVideo.classList.add("fadeIn"));
 
-          // If slideshow is on, pause it for video
+          // Try autoplay; if blocked, controls still work
+          setTimeout(() => {
+            const p = lbVideo.play();
+            if (p && typeof p.catch === "function") p.catch(() => {});
+          }, 150);
+
           if (playing) setPlaying(false);
         } else {
           // Show image, hide video
           lbVideo.classList.remove("show");
           lbImg.classList.add("show");
 
-          // Preload image then swap
           const img = new Image();
           img.onload = () => {
             lbImg.src = src;
@@ -650,21 +619,17 @@ const backLink = "/valentine";
         render();
       }
 
-      // Tile open
       tiles.forEach((t, i) => t.addEventListener("click", () => openLB(i)));
 
-      // Controls
       prevBtn.addEventListener("click", () => go(-1));
       nextBtn.addEventListener("click", () => go(1));
       playBtn.addEventListener("click", () => setPlaying(!playing));
       closeBtn.addEventListener("click", closeLB);
 
-      // Click overlay background closes
       lb.addEventListener("click", (e) => {
         if (e.target === lb) closeLB();
       });
 
-      // Keyboard
       window.addEventListener("keydown", (e) => {
         if (!isOpen()) return;
         if (e.key === "Escape") closeLB();
@@ -686,7 +651,7 @@ const backLink = "/valentine";
       function onTouchMove(e) {
         if (!isOpen()) return;
         if (x0 === null || y0 === null) return;
-        e.preventDefault(); // prevent background scroll while swiping
+        e.preventDefault();
       }
 
       function onTouchEnd(e) {
@@ -700,7 +665,6 @@ const backLink = "/valentine";
           if (dx < 0) go(1);
           else go(-1);
         }
-
         x0 = null; y0 = null;
       }
 
@@ -708,12 +672,10 @@ const backLink = "/valentine";
       lbStage.addEventListener("touchmove", onTouchMove, { passive: false });
       lbStage.addEventListener("touchend", onTouchEnd, { passive: true });
 
-      // Stop slideshow if tab hidden
       document.addEventListener("visibilitychange", () => {
         if (document.hidden) setPlaying(false);
       });
 
-      // If video starts playing, pause slideshow
       lbVideo.addEventListener("play", () => {
         if (playing) setPlaying(false);
       });
