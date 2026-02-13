@@ -1,0 +1,311 @@
+---
+const yesLink = '/valentine/yes';
+const noLink = '/valentine/no';
+const codeSnippet = `const us = {
+  me: "T",
+  you: "Divya",
+  status: "hopelessly into you",
+  question: "Divya, will you be my Valentine?",
+  foreverPlan: ["cute dates", "inside jokes", "soft kisses"]
+};
+
+export const answer = "yes" | "no";`;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Valentine Code Invite</title>
+  </head>
+  <body>
+    <main class="valentine">
+      <div class="card">
+        <div class="floating-hearts" aria-hidden="true">
+          <span>❤</span>
+          <span>♥</span>
+          <span>❤</span>
+          <span>♥</span>
+        </div>
+
+        <p class="badge">git commit -m "be my valentine"</p>
+        <h1>Divya, will you be my Valentine?</h1>
+        <p class="message">
+          From the first hello to every little moment after, you've made life brighter.
+          If your heart says yes, click below and make this the sweetest merge yet.
+        </p>
+
+        <div class="couple-photo" role="img" aria-label="Illustration of us both">
+          <div class="avatar me">T</div>
+          <div class="heart">❤</div>
+          <div class="avatar you">D</div>
+        </div>
+
+        <div class="terminal" aria-label="Coding message">
+          <div class="terminal-header">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="title">valentine.ts</span>
+          </div>
+          <pre><code>{codeSnippet}</code></pre>
+        </div>
+
+        <div class="actions">
+          <a class="button yes" href={yesLink} target="_blank" rel="noreferrer">
+            Yes, I will ♥
+          </a>
+          <a class="button no" href={noLink} target="_blank" rel="noreferrer">
+            No, not this time
+          </a>
+        </div>
+        <p class="footer">P.S. This request expires after one heartbeat.</p>
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  :global(body) {
+    margin: 0;
+    font-family: 'SF Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco,
+      Consolas, 'Liberation Mono', 'Courier New', monospace;
+    background: radial-gradient(circle at top, #2b0b3f 0%, #0a0217 55%, #04010a 100%);
+    color: #fdf7ff;
+  }
+
+  .valentine {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+  }
+
+  .card {
+    position: relative;
+    max-width: 620px;
+    width: 100%;
+    padding: 32px 28px;
+    border-radius: 24px;
+    background: rgba(16, 5, 32, 0.9);
+    box-shadow: 0 30px 80px rgba(8, 2, 18, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .floating-hearts span {
+    position: absolute;
+    color: rgba(255, 133, 194, 0.35);
+    animation: floatHeart 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .floating-hearts span:nth-child(1) {
+    top: 14px;
+    left: 22px;
+    animation-delay: 0s;
+  }
+
+  .floating-hearts span:nth-child(2) {
+    top: 20px;
+    right: 26px;
+    animation-delay: 1.2s;
+  }
+
+  .floating-hearts span:nth-child(3) {
+    bottom: 116px;
+    left: 14px;
+    animation-delay: 2.1s;
+  }
+
+  .floating-hearts span:nth-child(4) {
+    bottom: 86px;
+    right: 16px;
+    animation-delay: 2.8s;
+  }
+
+  @keyframes floatHeart {
+    0%,
+    100% {
+      transform: translateY(0px) scale(1);
+      opacity: 0.3;
+    }
+    50% {
+      transform: translateY(-10px) scale(1.08);
+      opacity: 0.8;
+    }
+  }
+
+  .badge {
+    display: inline-block;
+    margin: 0 0 16px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #f7d6ff;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+    margin: 0 0 12px;
+  }
+
+  .message {
+    margin: 0 0 20px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #f2ddff;
+  }
+
+  .couple-photo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 0 20px;
+  }
+
+  .avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  .me {
+    background: linear-gradient(135deg, #8ed6ff, #548bff);
+    color: #051934;
+  }
+
+  .you {
+    background: linear-gradient(135deg, #ff9ad4, #ff5f9c);
+    color: #330017;
+    animation-delay: 0.8s;
+  }
+
+  .heart {
+    font-size: 1.35rem;
+    color: #ff7cbf;
+    animation: beat 1.2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.06);
+    }
+  }
+
+  @keyframes beat {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+  }
+
+  .terminal {
+    background: rgba(6, 3, 14, 0.75);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: left;
+    margin: 0 0 24px;
+    overflow: hidden;
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ff5f57;
+  }
+
+  .dot:nth-child(2) {
+    background: #febc2e;
+  }
+
+  .dot:nth-child(3) {
+    background: #28c840;
+  }
+
+  .title {
+    margin-left: 10px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  pre {
+    margin: 0;
+    padding: 16px 18px 18px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #fbdcff;
+    white-space: pre-wrap;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .button {
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 999px;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(247, 146, 255, 0.2);
+  }
+
+  .yes {
+    background: linear-gradient(135deg, #ff7ac8, #f73c72);
+    color: #16010f;
+  }
+
+  .no {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fbeaff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .footer {
+    margin: 24px 0 0;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  @media (min-width: 540px) {
+    .actions {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+</style>
